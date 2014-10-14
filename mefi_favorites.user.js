@@ -25,6 +25,10 @@
  Also from Jordan Reiter's MetaFilter MultiFavorited Multiwidth - November Experiment
  http://userscripts.org/scripts/show/61012
 
+ Please see the README.md for more info:
+
+ https://greasyfork.org/scripts/5717-metafilter-filter-by-favorites
+ 
  Version 1.0
  - Initial Release.
  */

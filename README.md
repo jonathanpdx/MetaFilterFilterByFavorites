@@ -2,7 +2,7 @@
 
 ## Description
 
-Allows the users to select MetaFilter comments they wish to view based on how many times it has been favorited. This
+Allows a user to select MetaFilter comments they wish to view based on how many times it has been favorited. This
 script currently only works for the "modern" theme, selectable via your MetaFilter profile preferences. It works with
 the following MetaFilter subsites:
 
