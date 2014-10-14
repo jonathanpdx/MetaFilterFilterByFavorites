@@ -42,6 +42,9 @@ have at least that many favorites.
 Three additional links will appear next to each comment's favorite count allowing you to filter comments in-place,
 with the "More options" link providing a convenience link to return to the top of the post and view the graph.
 
+#### Hotkey(s)
+
+Currently the only hotkey configured is [ALT + g] which is the equivalent of clicking "Show all".
 
 ## Special Thanks
 

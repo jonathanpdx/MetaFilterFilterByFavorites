@@ -28,7 +28,7 @@
  Please see the README.md for more info:
 
  https://greasyfork.org/scripts/5717-metafilter-filter-by-favorites
- 
+
  Version 1.0
  - Initial Release.
  */
