@@ -18,7 +18,7 @@ the following MetaFilter subsites:
 
 This userscript is hosted at https://greasyfork.org/scripts/631-image-viewer
 
-It is synced with this github location:
+It is synced with this github location: https://github.com/jonathanpdx/MetaFilterFilterByFavorites
 
 ## Usage
 
