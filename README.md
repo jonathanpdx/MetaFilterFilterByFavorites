@@ -43,14 +43,14 @@ have at least that many favorites.
 
 Each comment has a bar next to it, with the width growing in proportion to the number of times its been favorited.
 
-![Comments with favorite bar](favorite-highlight-per-comment.png "The more comments the wider the bar.")
+![Comments with favorite bar](https://raw.githubusercontent.com/jonathanpdx/MetaFilterFilterByFavorites/master/favorite-highlight-per-comment.png "The more comments the wider the bar.")
 
 #### Show: All / X and above / More options
 
 Three additional links will appear next to each comment's favorite count allowing you to filter comments in-place,
 with the "More options" link providing a convenience link to return to the top of the post and view the graph.
 
-![Adjust favorite level per comment](comment.png "Show all / x and above / More options.")
+![Adjust favorite level per comment](https://raw.githubusercontent.com/jonathanpdx/MetaFilterFilterByFavorites/master/comment.png "Show all / x and above / More options.")
 
 #### Hotkey(s)
 
