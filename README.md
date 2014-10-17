@@ -37,10 +37,20 @@ At the top of any page which has more than one comment, a graph should appear sh
 made with a minimum threshold of favorites. Clicking on any bar on the graph will filter the display of comments that
 have at least that many favorites.
 
+![Comment/Favorite Graph](comment-favorite-graph.png "Current selection remains highlighted.")
+
+#### Show weighted favorite bar next to each comment.
+
+Each comment has a bar next to it, with the width growing in proportion to the number of times its been favorited.
+
+![Comments with favorite bar](favorite-highlight-per-comment.png "The more comments the wider the bar.")
+
 #### Show: All / X and above / More options
 
 Three additional links will appear next to each comment's favorite count allowing you to filter comments in-place,
 with the "More options" link providing a convenience link to return to the top of the post and view the graph.
+
+![Adjust favorite level per comment](comment.png "Show all / x and above / More options.")
 
 #### Hotkey(s)
 
