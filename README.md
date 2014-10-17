@@ -37,7 +37,7 @@ At the top of any page which has more than one comment, a graph should appear sh
 made with a minimum threshold of favorites. Clicking on any bar on the graph will filter the display of comments that
 have at least that many favorites.
 
-![Comment/Favorite Graph](comment-favorite-graph.png "Current selection remains highlighted.")
+![Comment/Favorite Graph](https://raw.githubusercontent.com/jonathanpdx/MetaFilterFilterByFavorites/master/comment-favorite-graph.png "Current selection remains highlighted.")
 
 #### Show weighted favorite bar next to each comment.
 
