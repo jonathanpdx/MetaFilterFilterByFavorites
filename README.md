@@ -14,7 +14,7 @@ the following MetaFilter subsites:
 + music
 + irl
 
-## Version 1.0
+## Version 1.1
 
 This userscript is hosted at https://greasyfork.org/scripts/5717-metafilter-filter-by-favorites
 
