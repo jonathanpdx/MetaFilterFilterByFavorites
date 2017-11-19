@@ -4,8 +4,9 @@
 // @description    Allows users to view MetaFilter comments by favorite count.
 // @include        /^https?://(www|ask|metatalk|fanfare|projects|music|irl)\.metafilter\.com/.*$/
 // @include        http://mefi/*
-// @version        1.0
-// @grant           GM_addStyle
+// @version        1.1
+// @grant GM.getValue
+// @require https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /*
@@ -28,6 +29,9 @@
  Please see the README.md for more info:
 
  https://greasyfork.org/scripts/5717-metafilter-filter-by-favorites
+
+ Version 1.1
+ - Uses gm4-polyfill.js to add support for Greasemonkey 4
 
  Version 1.0
  - Initial Release.
@@ -86,7 +90,6 @@ Logger = {
         logLevelEnum = logLevelEnum || LogLevelEnum.INFO;
 
         if (Global.doLog && logLevelEnum.value >= Global.logLevel.value) {
-//            GM_log(message);
             console.log(message);
         }
     }, debug:function (message) {
@@ -129,15 +132,16 @@ Util = {
         }
         Logger.debug("Num elements found by getNodes: " + ret.length);
         return ret;
-    }
+    },
 
     /**
      * Deletes a DOM element
      * @param DOM element - DOM element to remove
      * @return DOM element - the removed element
-     */, removeElement:function (element) {
+     */
+    removeElement:function (element) {
         return element.parentNode.removeChild(element);
-    }
+    },
 
     /**
      * Binds an event handler function to an object context, so that the handler can be executed as if it
@@ -147,12 +151,48 @@ Util = {
      * @param Object context - the object that will be used as context for the function, as if the function had been
      *          called as context.method(event);
      * @return function - the function to pass to addEventListener
-     */, bindAsEventHandler:function (method, context) {
+     */
+    bindAsEventHandler:function (method, context) {
         var __method = method;
         return function (event) {
             return __method.apply(context, [event]);
         }
+    },
+
+    //Finds y value of given object
+    findPos: function (obj) {
+    var current_top = 0;
+    if (obj.offsetParent) {
+        do {
+            current_top += obj.offsetTop;
+        } while (obj = obj.offsetParent);
     }
+    return current_top;
+    },
+
+    simulateClickShow: function(id) {
+        var elementById = document.getElementById(id);
+        var prevPos = Util.findPos(elementById);
+        Logger.debug("prevPos: " + prevPos);
+        Logger.debug("Previous window.pageYOffset: " + window.pageYOffset);
+
+        var diff = prevPos - window.pageYOffset;
+
+        elementById.click();
+
+        //Get object
+        Logger.debug("Did we find SupportDiv? " + comment_anchor);
+
+        //Scroll to location of SupportDiv on load
+        var newPos = findPos(elementById);
+        Logger.debug("newPos: " + newPos);
+        Logger.debug("Current window.pageYOffset (before scrolling): " + window.pageYOffset);
+
+        window.scroll(0, newPos - diff);
+        Logger.debug("Current window.pageYOffset (after scrolling): " + window.pageYOffset);
+
+}
+
 };
 
 /*
@@ -235,28 +275,7 @@ function removeClass(obj, className) {
 
 // ---------------------------
 
-//Finds y value of given object
-function findPos(obj) {
-    var current_top = 0;
-    if (obj.offsetParent) {
-        do {
-            current_top += obj.offsetTop;
-        } while (obj = obj.offsetParent);
-    }
-    return current_top;
-}
-function simulateClickShow(id) {
 
-// jquery isn't working here
-//            $('#filter0').trigger('click');
-
-// use non-jquery method to simulate the click of the count row specified
-    var evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    var show_all_link = document.getElementById(id);
-    show_all_link.dispatchEvent(evt);
-
-}
 
 function getElementsByClassName(node, classname) {
     if (node.getElementsByClassName) { // use native implementation if available
@@ -316,24 +335,9 @@ function captureShowClick(e) {
     Logger.debug("Count is: " + count);
 
     var comment_anchor = Util.getNodes('.//a[@name="' + id + '"]')[0];
-    var prevPos = findPos(comment_anchor);
-    Logger.debug("prevPos: " + prevPos);
-    Logger.debug("Previous window.pageYOffset: " + window.pageYOffset);
-
-    var diff = prevPos - window.pageYOffset;
 
     simulateClickShow(Global.row_prefix + count);
 
-    //Get object
-    Logger.debug("Did we find SupportDiv? " + comment_anchor);
-
-//Scroll to location of SupportDiv on load
-    var newPos = findPos(comment_anchor);
-    Logger.debug("newPos: " + newPos);
-    Logger.debug("Current window.pageYOffset (before scrolling): " + window.pageYOffset);
-
-    window.scroll(0, newPos - diff);
-    Logger.debug("Current window.pageYOffset (after scrolling): " + window.pageYOffset);
 
 //    simulateClickShow(id);
     return false;
@@ -493,9 +497,9 @@ function init() {
     }
     Logger.debug("Done looping through comments!");
 
-    GM_addStyle('#posts { margin-bottom: 1em; }');
+    GM.addStyle('#posts { margin-bottom: 1em; }');
 
-    GM_addStyle('.chart {'
+    GM.addStyle('.chart {'
         + 'background-color: ' + Global.table_bg_color + ';'
         + 'font: 14px sans-serif;'
         + 'margin: 0px 4px;'
@@ -505,33 +509,33 @@ function init() {
         + '}');
 
 
-    GM_addStyle('.comms {'
+    GM.addStyle('.comms {'
         + 'margin-left: 1em;'
         + 'float: left;'
         + 'width: 5%;'
         + '}');
 
-    GM_addStyle('.favs {'
+    GM.addStyle('.favs {'
         + 'float: left;'
         + 'background-color: ' + Global.favorite_color + ';'
         + 'margin-right: 4px;'
         + 'text-align: center;'
         + '}');
 
-    GM_addStyle('.wrapper {'
+    GM.addStyle('.wrapper {'
         + 'display: block;'
         + 'padding: 3px 0px;'
         + '}');
 
-    GM_addStyle('.wrapperSelected {'
+    GM.addStyle('.wrapperSelected {'
         + 'background-color: ' + Global.selected_color + ';'
         + '}');
 
-    GM_addStyle('.wrapper:hover {'
+    GM.addStyle('.wrapper:hover {'
         + 'background-color: ' + Global.hover_color + ';'
         + '}');
 
-    GM_addStyle('.clearfix:after {'
+    GM.addStyle('.clearfix:after {'
         + 'content: ".";'
         + 'display: block;'
         + 'height: 0;'
